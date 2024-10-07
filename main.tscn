@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://cfb6ck3dqnv4i"]
+
+[ext_resource type="PackedScene" uid="uid://cxhmbcu2y6onb" path="res://actors/player/player.tscn" id="1_8f6ji"]
+[ext_resource type="PackedScene" uid="uid://7t8ifbym3mbg" path="res://actors/basic_enemy/basic_enemy.tscn" id="2_lkele"]
+[ext_resource type="PackedScene" uid="uid://b4gbw64g14cns" path="res://actors/tileset.tscn" id="3_lnrxt"]
+[ext_resource type="PackedScene" uid="uid://cb6t6b5m0s6fa" path="res://actors/enemy_test/enemy_test.tscn" id="4_lto05"]
+[ext_resource type="PackedScene" uid="uid://freu0vcayedx" path="res://actors/shooting_enemy/shooting_enemy.tscn" id="5_q7nhp"]
+
+[sub_resource type="GDScript" id="GDScript_ssh52"]
+
+[node name="Main" type="Node2D"]
+script = SubResource("GDScript_ssh52")
+
+[node name="Player" parent="." instance=ExtResource("1_8f6ji")]
+position = Vector2(-3, 3)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = -1000000
+
+[node name="BasicEnemy" parent="." instance=ExtResource("2_lkele")]
+position = Vector2(204, 135)
+
+[node name="BasicEnemy2" parent="." instance=ExtResource("2_lkele")]
+position = Vector2(58, 246)
+
+[node name="BasicEnemy3" parent="." instance=ExtResource("2_lkele")]
+position = Vector2(172, 246)
+
+[node name="BasicEnemy4" parent="." instance=ExtResource("2_lkele")]
+position = Vector2(-97, 263)
+
+[node name="BasicEnemy5" parent="." instance=ExtResource("2_lkele")]
+position = Vector2(-195, 173)
+
+[node name="Tileset" parent="." instance=ExtResource("3_lnrxt")]
+
+[node name="EnemyTest" parent="." instance=ExtResource("4_lto05")]
+position = Vector2(-374, -177)
+scale = Vector2(1.77156, 1.54938)
+
+[node name="ShootingEnemy" parent="." instance=ExtResource("5_q7nhp")]
+position = Vector2(295, -233)
+scale = Vector2(2.57361, 2.57361)
