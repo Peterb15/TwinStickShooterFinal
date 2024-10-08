@@ -1,0 +1,113 @@
+[gd_scene load_steps=7 format=3 uid="uid://cckjbx16m0yfr"]
+
+[ext_resource type="PackedScene" uid="uid://cy7e6sq8x7xjs" path="res://Map2.tscn" id="1_nwi4d"]
+[ext_resource type="PackedScene" uid="uid://c3hg3o361bwjq" path="res://platform.tscn" id="2_4rnkv"]
+[ext_resource type="PackedScene" uid="uid://cxhmbcu2y6onb" path="res://actors/player/player.tscn" id="3_3w16x"]
+
+[sub_resource type="Animation" id="Animation_3wkcc"]
+resource_name = "move"
+length = 20.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 9, 9.96667, 19.0333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-6, -416), Vector2(-6, -416), Vector2(-6, -733), Vector2(-6, -733), Vector2(-6, -416)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 9, 9.96667, 19.0333, 20),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.0, 3.14159, 3.14159, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_layer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 9.03333, 10, 19.0333, 20),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [32, 16, 32, 16, 32, 16]
+}
+
+[sub_resource type="Animation" id="Animation_3rk24"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-6, -416)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:collision_layer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [32]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mwca2"]
+_data = {
+"RESET": SubResource("Animation_3rk24"),
+"move": SubResource("Animation_3wkcc")
+}
+
+[node name="BigMap" type="Node2D"]
+
+[node name="Ground" parent="." instance=ExtResource("1_nwi4d")]
+position = Vector2(419, 116)
+
+[node name="Platform" parent="." instance=ExtResource("2_4rnkv")]
+position = Vector2(-6, -416)
+collision_layer = 32
+collision_mask = 32
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Platform"]
+libraries = {
+"": SubResource("AnimationLibrary_mwca2")
+}
+autoplay = "move"
+
+[node name="Player" parent="." instance=ExtResource("3_3w16x")]
+position = Vector2(-5, -429)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = -1000000

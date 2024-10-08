@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqtujrj455t7w"]
+
+[ext_resource type="Script" path="res://level_2.gd" id="1_0up3c"]
+[ext_resource type="PackedScene" uid="uid://cy7e6sq8x7xjs" path="res://Map2.tscn" id="1_oby1f"]
+[ext_resource type="PackedScene" uid="uid://cxhmbcu2y6onb" path="res://actors/player/player.tscn" id="2_np0eu"]
+[ext_resource type="PackedScene" uid="uid://cb6t6b5m0s6fa" path="res://actors/enemy_test/enemy_test.tscn" id="3_tuver"]
+[ext_resource type="PackedScene" uid="uid://freu0vcayedx" path="res://actors/shooting_enemy/shooting_enemy.tscn" id="4_f8vwc"]
+
+[node name="level_2" type="Node2D"]
+script = ExtResource("1_0up3c")
+
+[node name="Ground" parent="." instance=ExtResource("1_oby1f")]
+position = Vector2(683, 48)
+scale = Vector2(1.59407, 1.59407)
+
+[node name="Player" parent="." instance=ExtResource("2_np0eu")]
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="EnemyTest" parent="Enemies" instance=ExtResource("3_tuver")]
+position = Vector2(2, -138)
+
+[node name="EnemyTest2" parent="Enemies" instance=ExtResource("3_tuver")]
+position = Vector2(-366, -1566)
+
+[node name="EnemyTest4" parent="Enemies" instance=ExtResource("3_tuver")]
+position = Vector2(240, -1806)
+
+[node name="EnemyTest3" parent="Enemies" instance=ExtResource("3_tuver")]
+position = Vector2(33, -1370)
+
+[node name="ShootingEnemy" parent="Enemies" instance=ExtResource("4_f8vwc")]
+position = Vector2(-167, -389)
+scale = Vector2(2.17719, 2.17719)
+
+[node name="ShootingEnemy3" parent="Enemies" instance=ExtResource("4_f8vwc")]
+position = Vector2(-290, -1871)
+scale = Vector2(2.17719, 2.17719)
+
+[node name="ShootingEnemy4" parent="Enemies" instance=ExtResource("4_f8vwc")]
+position = Vector2(-454, -2205)
+scale = Vector2(2.17719, 2.17719)
+
+[node name="ShootingEnemy5" parent="Enemies" instance=ExtResource("4_f8vwc")]
+position = Vector2(-32, -2346)
+scale = Vector2(2.17719, 2.17719)
+
+[node name="ShootingEnemy6" parent="Enemies" instance=ExtResource("4_f8vwc")]
+position = Vector2(767, -2743)
+scale = Vector2(2.17719, 2.17719)
+
+[node name="ShootingEnemy2" parent="Enemies" instance=ExtResource("4_f8vwc")]
+position = Vector2(183, -393)
+scale = Vector2(2.17719, 2.17719)

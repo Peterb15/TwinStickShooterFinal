@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpjjhmw4gdy70"]
+
+[ext_resource type="Script" path="res://actors/projectile/projectile.gd" id="1_6loc4"]
+[ext_resource type="Texture2D" uid="uid://c6f5uqum4au0k" path="res://assets/WIZARD.png" id="2_htnfb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qbs76"]
+radius = 29.8329
+
+[node name="Projectile" type="Area2D" groups=["projectile"]]
+collision_layer = 4
+collision_mask = 18
+script = ExtResource("1_6loc4")
+
+[node name="MainSprite" type="Sprite2D" parent="."]
+position = Vector2(-40, 16)
+scale = Vector2(0.503071, 0.503071)
+texture = ExtResource("2_htnfb")
+region_enabled = true
+region_rect = Rect2(864, 1027, 349, 249)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qbs76")
+
+[node name="TimeToLive" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="TimeToLive" to="." method="_on_time_to_live_timeout"]

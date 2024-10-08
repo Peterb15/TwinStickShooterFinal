@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3r2k8b3e17x8"]
+
+[ext_resource type="Script" path="res://actors/player/player.gd" id="1_elmo5"]
+[ext_resource type="PackedScene" uid="uid://cpjjhmw4gdy70" path="res://actors/projectile/projectile.tscn" id="2_itaay"]
+[ext_resource type="PackedScene" uid="uid://3uehou31yloi" path="res://actors/teleport/teleport.tscn" id="3_aue0e"]
+[ext_resource type="Texture2D" uid="uid://1jrrdmc5hf2h" path="res://actors/player/WIZARD_final.png" id="4_ii188"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5wg87"]
+size = Vector2(50, 50)
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 31
+motion_mode = 1
+script = ExtResource("1_elmo5")
+projectile_scene = ExtResource("2_itaay")
+teleport_scene = ExtResource("3_aue0e")
+
+[node name="MainCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5wg87")
+
+[node name="ProjectileRefPoint" type="Node2D" parent="."]
+position = Vector2(33, 0)
+
+[node name="TeleportRefPoint" type="Node2D" parent="."]
+position = Vector2(33, 0)
+
+[node name="LightningRefPoint" type="Node2D" parent="."]
+position = Vector2(33, 0)
+
+[node name="CharacterSprite" type="Sprite2D" parent="."]
+position = Vector2(1, 8)
+scale = Vector2(0.211048, 0.211048)
+texture = ExtResource("4_ii188")
+hframes = 7
+vframes = 3
+region_enabled = true
+region_rect = Rect2(0, 8, 2384, 1064)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

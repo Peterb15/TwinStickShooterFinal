@@ -1,0 +1,181 @@
+[gd_scene load_steps=12 format=3 uid="uid://freu0vcayedx"]
+
+[ext_resource type="Script" path="res://actors/shooting_enemy/shooting_enemy.gd" id="1_rynbi"]
+[ext_resource type="Texture2D" uid="uid://dwxn4prgecldx" path="res://actors/shooting_enemy/Alien.png" id="2_cocbh"]
+[ext_resource type="Script" path="res://actors/shooting_enemy/holstered.gd" id="2_x6tdv"]
+[ext_resource type="Script" path="res://actors/shooting_enemy/firing.gd" id="3_47h8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v47jn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gsabg"]
+
+[sub_resource type="Animation" id="Animation_2wa56"]
+resource_name = "Moving_Left"
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1, 0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_a05xf"]
+resource_name = "Moving_Right"
+length = 1.00001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.125, 0.375, 0.625, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ua6d0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_nre4y"]
+resource_name = "Shooting"
+length = 0.5
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.375),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87ohr"]
+_data = {
+"Moving_Left": SubResource("Animation_2wa56"),
+"Moving_Right": SubResource("Animation_a05xf"),
+"RESET": SubResource("Animation_ua6d0"),
+"Shooting": SubResource("Animation_nre4y")
+}
+
+[node name="ShootingEnemy" type="CharacterBody2D" node_paths=PackedStringArray("initial_state") groups=["enemy"]]
+top_level = true
+scale = Vector2(1.55117, 1.55117)
+collision_layer = 2
+collision_mask = 31
+script = ExtResource("1_rynbi")
+initial_state = NodePath("States/Holstered")
+
+[node name="MainSprite" type="Sprite2D" parent="."]
+z_as_relative = false
+position = Vector2(-9, -13)
+scale = Vector2(0.083417, 0.083417)
+texture = ExtResource("2_cocbh")
+centered = false
+flip_h = true
+hframes = 4
+region_enabled = true
+region_rect = Rect2(56, 1368, 936, 304)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v47jn")
+
+[node name="States" type="Node" parent="."]
+
+[node name="Holstered" type="Node" parent="States"]
+script = ExtResource("2_x6tdv")
+
+[node name="Firing" type="Node" parent="States"]
+script = ExtResource("3_47h8v")
+
+[node name="AnimationTimer" type="Timer" parent="States/Firing"]
+wait_time = 0.4
+
+[node name="SenseRange" type="Area2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 9.53674e-07)
+scale = Vector2(1.12146, 0.971915)
+collision_layer = 0
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SenseRange"]
+position = Vector2(0.891695, -1.90735e-06)
+scale = Vector2(8, 8)
+shape = SubResource("CircleShape2D_gsabg")
+
+[node name="ProjectileRefPoint" type="Node2D" parent="."]
+position = Vector2(14, -7)
+
+[node name="ShootingTimer" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_87ohr")
+}
+movie_quit_on_finish = true
+
+[connection signal="timeout" from="States/Firing/AnimationTimer" to="States/Firing" method="_on_animation_timer_timeout"]
+[connection signal="body_exited" from="SenseRange" to="States/Firing" method="_on_sense_range_body_exited"]
+[connection signal="timeout" from="ShootingTimer" to="States/Firing" method="_on_shooting_timer_timeout"]

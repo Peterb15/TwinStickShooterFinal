@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://3uehou31yloi"]
+
+[ext_resource type="Script" path="res://actors/teleport/teleport.gd" id="1_ygbhv"]
+[ext_resource type="Texture2D" uid="uid://c6f5uqum4au0k" path="res://assets/WIZARD.png" id="2_5hlgi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qbs76"]
+radius = 24.0
+
+[node name="teleport" type="Area2D" groups=["projectile"]]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ygbhv")
+
+[node name="MainSprite" type="Sprite2D" parent="."]
+position = Vector2(-6, 0)
+scale = Vector2(0.130582, 0.130582)
+texture = ExtResource("2_5hlgi")
+region_enabled = true
+region_rect = Rect2(1413, 387, 488, 362)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qbs76")
+
+[node name="Teleport_Time" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Teleport_Time" to="." method="_on_teleport_time_timeout"]

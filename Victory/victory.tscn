@@ -1,0 +1,124 @@
+[gd_scene load_steps=11 format=3 uid="uid://co2ouotu36w5l"]
+
+[ext_resource type="Script" path="res://Victory/victory.gd" id="1_sbscv"]
+[ext_resource type="Texture2D" uid="uid://cah1sec13u8n2" path="res://assets/Tiny Swords (Update 010)/Terrain/Water/Water.png" id="1_si358"]
+[ext_resource type="Texture2D" uid="uid://bq8otowyj3o7x" path="res://Victory/HappySheep_Bouncing.png" id="2_eaptv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcuc0"]
+atlas = ExtResource("2_eaptv")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5vhl"]
+atlas = ExtResource("2_eaptv")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv5os"]
+atlas = ExtResource("2_eaptv")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43qo2"]
+atlas = ExtResource("2_eaptv")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qgqu"]
+atlas = ExtResource("2_eaptv")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yokky"]
+atlas = ExtResource("2_eaptv")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o207p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lcuc0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5vhl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv5os")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43qo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qgqu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yokky")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="Victory" type="Node2D"]
+script = ExtResource("1_sbscv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(527, 310)
+scale = Vector2(21.5389, 10.8037)
+texture = ExtResource("1_si358")
+
+[node name="Camera2D" type="Camera2D" parent="Sprite2D"]
+position = Vector2(-1.11427, 0)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(164, 209)
+sprite_frames = SubResource("SpriteFrames_o207p")
+autoplay = "default"
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+position = Vector2(412, 248)
+sprite_frames = SubResource("SpriteFrames_o207p")
+autoplay = "default"
+frame_progress = 0.805037
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(601, 349)
+sprite_frames = SubResource("SpriteFrames_o207p")
+autoplay = "default"
+frame_progress = 0.805037
+
+[node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="."]
+position = Vector2(864, 245)
+sprite_frames = SubResource("SpriteFrames_o207p")
+autoplay = "default"
+frame_progress = 0.805037
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(0.831373, 0.74902, 0.12549, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = 154.0
+offset_right = 890.0
+offset_bottom = 455.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 216
+text = "Victory"
+
+[node name="PlayAgain" type="Button" parent="."]
+offset_left = 213.0
+offset_top = 497.0
+offset_right = 308.0
+offset_bottom = 528.0
+scale = Vector2(2.32364, 2.32364)
+text = "Play Again?"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 527.0
+offset_top = 498.0
+offset_right = 622.0
+offset_bottom = 529.0
+scale = Vector2(2.32364, 2.32364)
+text = "Quit"
+
+[connection signal="pressed" from="PlayAgain" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_play_again_2_pressed"]

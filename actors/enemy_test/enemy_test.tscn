@@ -1,0 +1,191 @@
+[gd_scene load_steps=14 format=3 uid="uid://cb6t6b5m0s6fa"]
+
+[ext_resource type="Script" path="res://actors/enemy_test/enemy_test.gd" id="1_lklns"]
+[ext_resource type="Texture2D" uid="uid://bajq8x1da1lkc" path="res://actors/enemy_test/Alien2.png" id="2_sf2u7"]
+[ext_resource type="Script" path="res://actors/enemy_test/stalk.gd" id="2_vkxnv"]
+[ext_resource type="Script" path="res://actors/enemy_test/running.gd" id="3_hmf8e"]
+[ext_resource type="Script" path="res://actors/enemy_test/dodge.gd" id="4_330at"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xqhli"]
+size = Vector2(2.60182, 2.94873)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo8sg"]
+size = Vector2(46.5038, 47.5795)
+
+[sub_resource type="Animation" id="Animation_2wa56"]
+resource_name = "Moving_Left"
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1, 0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_a05xf"]
+resource_name = "Moving_Right"
+length = 1.00001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.125, 0.375, 0.625, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ua6d0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_nre4y"]
+resource_name = "Shooting"
+length = 0.5
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.375),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_87ohr"]
+_data = {
+"Moving_Left": SubResource("Animation_2wa56"),
+"Moving_Right": SubResource("Animation_a05xf"),
+"RESET": SubResource("Animation_ua6d0"),
+"Shooting": SubResource("Animation_nre4y")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v47jn"]
+size = Vector2(69, 79)
+
+[node name="EnemyTest" type="CharacterBody2D" node_paths=PackedStringArray("initial_state") groups=["enemy"]]
+collision_layer = 18
+collision_mask = 31
+script = ExtResource("1_lklns")
+initial_state = NodePath("States/Stalk")
+
+[node name="Melee" type="Area2D" parent="."]
+position = Vector2(-3.5, -4.5)
+scale = Vector2(28.8259, 28.8259)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee"]
+shape = SubResource("RectangleShape2D_xqhli")
+
+[node name="MainSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333053, 0.333053)
+texture = ExtResource("2_sf2u7")
+flip_h = true
+hframes = 2
+region_enabled = true
+region_rect = Rect2(32, 1400, 496, 272)
+
+[node name="States" type="Node" parent="."]
+
+[node name="Stalk" type="Node" parent="States"]
+script = ExtResource("2_vkxnv")
+
+[node name="Running" type="Node" parent="States"]
+script = ExtResource("3_hmf8e")
+
+[node name="Dodge" type="Node" parent="States"]
+script = ExtResource("4_330at")
+
+[node name="DodgeTimer" type="Timer" parent="States/Dodge"]
+wait_time = 0.25
+one_shot = true
+
+[node name="CooldownTimer" type="Timer" parent="States/Dodge"]
+wait_time = 0.2
+
+[node name="SenseRange" type="Area2D" parent="."]
+scale = Vector2(3.9691, 4.11471)
+collision_layer = 32
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SenseRange"]
+position = Vector2(-1, -1)
+scale = Vector2(2.04, 1.96)
+shape = SubResource("RectangleShape2D_mo8sg")
+one_way_collision_margin = 0.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_87ohr")
+}
+movie_quit_on_finish = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.5, -4.5)
+shape = SubResource("RectangleShape2D_v47jn")
+
+[connection signal="body_entered" from="Melee" to="." method="_on_melee_body_entered"]
+[connection signal="timeout" from="States/Dodge/DodgeTimer" to="States/Dodge" method="_on_dodge_timer_timeout"]
+[connection signal="timeout" from="States/Dodge/CooldownTimer" to="States/Dodge" method="_on_cooldown_timer_timeout"]
