@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dughc88gvpyrw"]
+[gd_scene load_steps=8 format=3 uid="uid://dughc88gvpyrw"]
 
 [ext_resource type="PackedScene" uid="uid://rtslmjgm0w4l" path="res://Map1.tscn" id="1_8xp5o"]
 [ext_resource type="Script" path="res://level_1.gd" id="1_wonuc"]
 [ext_resource type="PackedScene" uid="uid://cxhmbcu2y6onb" path="res://actors/player/player.tscn" id="2_83i6w"]
 [ext_resource type="PackedScene" uid="uid://cb6t6b5m0s6fa" path="res://actors/enemy_test/enemy_test.tscn" id="3_532v7"]
 [ext_resource type="PackedScene" uid="uid://freu0vcayedx" path="res://actors/shooting_enemy/shooting_enemy.tscn" id="4_7venx"]
+[ext_resource type="AudioStream" uid="uid://bd3xmpjexirip" path="res://assets/sound/music/NotJamMusicPack/Loopable/SwitchWithMeTheme_Loopable.wav" id="6_rvy4o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6clya"]
 size = Vector2(430.5, 267.8)
@@ -51,5 +52,10 @@ collision_mask = 2
 position = Vector2(225.5, 8)
 scale = Vector2(10, 10)
 shape = SubResource("RectangleShape2D_6clya")
+
+[node name="Level1Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_rvy4o")
+volume_db = 5.0
+bus = &"Music"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

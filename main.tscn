@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfb6ck3dqnv4i"]
+[gd_scene load_steps=4 format=3 uid="uid://cfb6ck3dqnv4i"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_0iahr"]
 [ext_resource type="PackedScene" uid="uid://c55y2rik5m3ws" path="res://StartMenu.tscn" id="2_td3hl"]
+[ext_resource type="AudioStream" uid="uid://c84u56huvj71a" path="res://assets/sound/music/NotJamMusicPack/Loopable/ChillMenu_Loopable.wav" id="3_74ix6"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0iahr")
 
 [node name="StartMenu" parent="." instance=ExtResource("2_td3hl")]
+
+[node name="MenuMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_74ix6")
+volume_db = -5.0
+bus = &"Music"

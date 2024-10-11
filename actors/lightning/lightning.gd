@@ -1,13 +1,20 @@
 extends Area2D
+@onready var lightning_sfx: AudioStreamPlayer2D = $lightningSFX
 
 var velocity: Vector2 = Vector2(0,0)
 var count: int = 4
+var fowardB: Vector2
 
 	
 	
 func fire(forward: Vector2, speed: float):
+	$AnimationPlayer.play("lightning_start")
+	lightning_sfx.play()
+	await get_tree().create_timer(0.25).timeout
 	velocity = forward * speed
 	look_at(position + forward)
+
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

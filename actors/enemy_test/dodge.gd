@@ -10,14 +10,19 @@ extends State
 @export var isRunning: bool = false
 var target : Area2D
 var variety = 0
+@onready var animation_player: AnimationPlayer = $"../../AnimationPlayer"
+@onready var dodge_sfx: AudioStreamPlayer2D = $"../../dodgeSFX"
 
 # It will just chase the player for now
-
+func _ready() -> void:
+	animation_player.play("Moving_Left")
 func nowRunning():
 	isRunning = true
 func process_state(delta):
 	if dodgeReady == true:
+		dodge_sfx.play()
 		var direction = (target.position - body.position).normalized()
+
 		# Calculate the direction from the body to the target
 
 			
@@ -51,13 +56,9 @@ func process_state(delta):
 	body.move_and_slide()
 
 func _on_dodge_timer_timeout() -> void:
-	if isRunning == true:
-		change_state.emit(running_state)
-	else:
-		change_state.emit(stalk_state)
 	body.floor_stop_on_slope
 	body.velocity = Vector2.ZERO  # Reset velocity to stop movement
-	dodgeReady = true
+
 
 	pass # Replace with function body.
 
@@ -65,5 +66,10 @@ func _on_dodge_timer_timeout() -> void:
 
 
 func _on_cooldown_timer_timeout() -> void:
+	if isRunning == true:
+		change_state.emit(running_state)
+	else:
+		change_state.emit(stalk_state)
 	get_parent().get_parent().collision_layer = 2
+	dodgeReady = true
 	pass # Replace with function body.

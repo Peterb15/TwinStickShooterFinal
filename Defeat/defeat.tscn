@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://blgbuyj8ymtq3"]
+[gd_scene load_steps=4 format=3 uid="uid://blgbuyj8ymtq3"]
 
 [ext_resource type="Texture2D" uid="uid://cah1sec13u8n2" path="res://assets/Tiny Swords (Update 010)/Terrain/Water/Water.png" id="1_mi0ut"]
 [ext_resource type="Script" path="res://Defeat/defeat.gd" id="1_n0ddj"]
+[ext_resource type="AudioStream" uid="uid://7e8ocsbj4uny" path="res://assets/sound/music/NotJamMusicPack/Loopable/DragAndDreadTheme_Loopable.wav" id="3_gx30o"]
 
 [node name="Defeat" type="Node2D"]
 script = ExtResource("1_n0ddj")
@@ -48,6 +49,10 @@ offset_right = 622.0
 offset_bottom = 529.0
 scale = Vector2(2.32364, 2.32364)
 text = "Quit"
+
+[node name="DefeatMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_gx30o")
+bus = &"Music"
 
 [connection signal="pressed" from="PlayAgain" to="." method="_on_play_again_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://co2ouotu36w5l"]
+[gd_scene load_steps=12 format=3 uid="uid://co2ouotu36w5l"]
 
 [ext_resource type="Script" path="res://Victory/victory.gd" id="1_sbscv"]
 [ext_resource type="Texture2D" uid="uid://cah1sec13u8n2" path="res://assets/Tiny Swords (Update 010)/Terrain/Water/Water.png" id="1_si358"]
 [ext_resource type="Texture2D" uid="uid://bq8otowyj3o7x" path="res://Victory/HappySheep_Bouncing.png" id="2_eaptv"]
+[ext_resource type="AudioStream" uid="uid://3ibl5nit21wd" path="res://assets/sound/music/NotJamMusicPack/Loopable/CriticalTheme_Loopable.wav" id="4_us3x2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lcuc0"]
 atlas = ExtResource("2_eaptv")
@@ -119,6 +120,10 @@ offset_right = 622.0
 offset_bottom = 529.0
 scale = Vector2(2.32364, 2.32364)
 text = "Quit"
+
+[node name="VictoryMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_us3x2")
+bus = &"Music"
 
 [connection signal="pressed" from="PlayAgain" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_play_again_2_pressed"]

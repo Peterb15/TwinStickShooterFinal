@@ -1,22 +1,63 @@
-[gd_scene load_steps=4 format=3 uid="uid://babjvpwprs3d7"]
+[gd_scene load_steps=8 format=3 uid="uid://babjvpwprs3d7"]
 
 [ext_resource type="Script" path="res://enemy_projectile.gd" id="1_f34mj"]
-[ext_resource type="Texture2D" uid="uid://c6f5uqum4au0k" path="res://assets/WIZARD.png" id="2_jnerj"]
+[ext_resource type="Texture2D" uid="uid://r5t18f1km64r" path="res://actors/player/Player/WIZARD_F.png" id="2_vowlx"]
+[ext_resource type="AudioStream" uid="uid://dscukw8em8piu" path="res://assets/sound/SFX/raygun.wav" id="3_roxc2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbs76"]
 radius = 29.8329
 
+[sub_resource type="Animation" id="Animation_srygu"]
+resource_name = "raygun"
+length = 1.00001
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Rect2(886, 1505, 20, 24), Rect2(846, 1499, 32, 36), Rect2(803, 1491, 38, 56), Rect2(803, 1491, 38, 56), Rect2(886, 1505, 20, 24), Rect2(846, 1499, 32, 36), Rect2(803, 1491, 38, 56), Rect2(803, 1491, 38, 56)]
+}
+
+[sub_resource type="Animation" id="Animation_k0sah"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(886, 1505, 20, 24)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_86sre"]
+_data = {
+"RESET": SubResource("Animation_k0sah"),
+"raygun": SubResource("Animation_srygu")
+}
+
 [node name="Projectile" type="Area2D" groups=["projectile"]]
+modulate = Color(0, 0.701961, 0.117647, 1)
+self_modulate = Color(3.46541e-06, 0.751689, 0.599846, 1)
 collision_layer = 8
 collision_mask = 17
 script = ExtResource("1_f34mj")
 
 [node name="MainSprite" type="Sprite2D" parent="."]
-scale = Vector2(0.385518, 0.385518)
-texture = ExtResource("2_jnerj")
-flip_h = true
+scale = Vector2(1.6875, 1.6875)
+texture = ExtResource("2_vowlx")
 region_enabled = true
-region_rect = Rect2(536, 1472, 184, 96)
+region_rect = Rect2(886, 1505, 20, 24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -25,6 +66,16 @@ shape = SubResource("CircleShape2D_qbs76")
 [node name="TimeToLive" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
+
+[node name="raySFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_roxc2")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_86sre")
+}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="TimeToLive" to="." method="_on_time_to_live_timeout"]

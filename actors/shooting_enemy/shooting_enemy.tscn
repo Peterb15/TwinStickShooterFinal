@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://freu0vcayedx"]
+[gd_scene load_steps=13 format=3 uid="uid://freu0vcayedx"]
 
 [ext_resource type="Script" path="res://actors/shooting_enemy/shooting_enemy.gd" id="1_rynbi"]
 [ext_resource type="Texture2D" uid="uid://dwxn4prgecldx" path="res://actors/shooting_enemy/Alien.png" id="2_cocbh"]
 [ext_resource type="Script" path="res://actors/shooting_enemy/holstered.gd" id="2_x6tdv"]
 [ext_resource type="Script" path="res://actors/shooting_enemy/firing.gd" id="3_47h8v"]
+[ext_resource type="AudioStream" uid="uid://c1pkj3oo2ky1b" path="res://assets/sound/SFX/sound.wav" id="5_ijbgb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v47jn"]
+size = Vector2(23.2083, 24.4976)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gsabg"]
 
@@ -175,6 +177,11 @@ libraries = {
 "": SubResource("AnimationLibrary_87ohr")
 }
 movie_quit_on_finish = true
+
+[node name="enemySFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_ijbgb")
+volume_db = 5.0
+bus = &"SFX"
 
 [connection signal="timeout" from="States/Firing/AnimationTimer" to="States/Firing" method="_on_animation_timer_timeout"]
 [connection signal="body_exited" from="SenseRange" to="States/Firing" method="_on_sense_range_body_exited"]

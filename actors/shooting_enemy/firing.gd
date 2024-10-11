@@ -22,6 +22,9 @@ func process_state(delta):
 		var angle = target.position.y / distance
 		var projectile_forward = Vector2.from_angle(angle)
 		
+		body.velocity = (target.position - body.position).normalized() * chase_speed
+		body.move_and_slide()
+		
 				# Set the projectile's initial position 
 		new_projectile.position = get_parent().get_parent().get_node("ProjectileRefPoint").global_position
 		

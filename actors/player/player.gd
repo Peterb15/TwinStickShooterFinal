@@ -6,6 +6,9 @@ class_name Player
 @export var lightning_scene: Resource
 @export var move_speed: float = 200.0
 @export var hp = 5
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var playerdmg: AudioStreamPlayer2D = $playerdmg
+@onready var playerdeath: AudioStreamPlayer2D = $playerdeath
 
 # Toggle variable to switch between teleport and projectile
 var use_teleport: bool = false
@@ -15,15 +18,22 @@ func _ready():
 	start_HpDisplay()
 
 func hit(damage_number: int):
+		playerdmg.play()
 		hp -= damage_number
 		update_HpDisplay()
 		get_node("HpDisplay").add_text
 		if(hp == 0):
-			#queue_free()
-			get_tree().change_scene_to_file("res://Defeat/defeat.tscn")
+			await playerdmg
+			lose()
 			pass # Rep
 			
 			
+func lose():
+	useAnimation = 10
+	$AnimationPlayer.play("death")
+	playerdeath.play()
+	await  $AnimationPlayer.animation_finished
+	await playerdeath
 func start_HpDisplay():
 	var rich_text_label = $HpDisplay
 	rich_text_label.add_text("HP: " + str(hp))
@@ -112,4 +122,7 @@ func _physics_process(delta):
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if(useAnimation == 1 || useAnimation == 2 || useAnimation == 3):
 		useAnimation = 0
+	if(anim_name == "death" || useAnimation == 10):
+		get_tree().change_scene_to_file("res://Defeat/defeat.tscn")
+		queue_free()
 	pass # Replace with function body.

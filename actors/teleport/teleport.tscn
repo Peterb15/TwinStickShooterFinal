@@ -1,27 +1,107 @@
-[gd_scene load_steps=4 format=3 uid="uid://3uehou31yloi"]
+[gd_scene load_steps=8 format=3 uid="uid://3uehou31yloi"]
 
 [ext_resource type="Script" path="res://actors/teleport/teleport.gd" id="1_ygbhv"]
-[ext_resource type="Texture2D" uid="uid://c6f5uqum4au0k" path="res://assets/WIZARD.png" id="2_5hlgi"]
+[ext_resource type="Texture2D" uid="uid://r5t18f1km64r" path="res://actors/player/Player/WIZARD_F.png" id="2_488ek"]
+[ext_resource type="AudioStream" uid="uid://c6k1d6awgang" path="res://assets/sound/SFX/teleport.wav" id="3_ip2c3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qbs76"]
 radius = 24.0
 
+[sub_resource type="Animation" id="Animation_ky1yc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-4.71239]
+}
+
+[sub_resource type="Animation" id="Animation_xw6rw"]
+resource_name = "teleport_start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 4.71239]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [3.14159, -4.71239]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_odynn"]
+_data = {
+"RESET": SubResource("Animation_ky1yc"),
+"teleport_start": SubResource("Animation_xw6rw")
+}
+
 [node name="teleport" type="Area2D" groups=["projectile"]]
+top_level = true
+z_index = 1
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_ygbhv")
-
-[node name="MainSprite" type="Sprite2D" parent="."]
-position = Vector2(-6, 0)
-scale = Vector2(0.130582, 0.130582)
-texture = ExtResource("2_5hlgi")
-region_enabled = true
-region_rect = Rect2(1413, 387, 488, 362)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qbs76")
 
 [node name="Teleport_Time" type="Timer" parent="."]
 autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.23891, -0.95129)
+scale = Vector2(0.165738, 0.165738)
+texture = ExtResource("2_488ek")
+region_enabled = true
+region_rect = Rect2(1364, 482, 335, 254)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(0.761093, 0.0487099)
+rotation = -4.71239
+scale = Vector2(0.165738, 0.165738)
+texture = ExtResource("2_488ek")
+region_enabled = true
+region_rect = Rect2(1364, 482, 335, 254)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_odynn")
+}
+
+[node name="teleportSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ip2c3")
+bus = &"SFX"
 
 [connection signal="timeout" from="Teleport_Time" to="." method="_on_teleport_time_timeout"]

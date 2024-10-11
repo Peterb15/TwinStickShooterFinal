@@ -1,13 +1,15 @@
-[gd_scene load_steps=14 format=3 uid="uid://cb6t6b5m0s6fa"]
+[gd_scene load_steps=16 format=3 uid="uid://cb6t6b5m0s6fa"]
 
 [ext_resource type="Script" path="res://actors/enemy_test/enemy_test.gd" id="1_lklns"]
 [ext_resource type="Texture2D" uid="uid://bajq8x1da1lkc" path="res://actors/enemy_test/Alien2.png" id="2_sf2u7"]
 [ext_resource type="Script" path="res://actors/enemy_test/stalk.gd" id="2_vkxnv"]
 [ext_resource type="Script" path="res://actors/enemy_test/running.gd" id="3_hmf8e"]
 [ext_resource type="Script" path="res://actors/enemy_test/dodge.gd" id="4_330at"]
+[ext_resource type="AudioStream" uid="uid://c1pkj3oo2ky1b" path="res://assets/sound/SFX/sound.wav" id="6_j8j73"]
+[ext_resource type="AudioStream" uid="uid://dm3h1x4a57miy" path="res://assets/sound/SFX/whoo.wav" id="7_82ikw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xqhli"]
-size = Vector2(2.60182, 2.94873)
+size = Vector2(2.87935, 3.29565)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mo8sg"]
 size = Vector2(46.5038, 47.5795)
@@ -124,7 +126,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v47jn"]
-size = Vector2(69, 79)
+size = Vector2(75, 87)
 
 [node name="EnemyTest" type="CharacterBody2D" node_paths=PackedStringArray("initial_state") groups=["enemy"]]
 collision_layer = 18
@@ -163,7 +165,6 @@ wait_time = 0.25
 one_shot = true
 
 [node name="CooldownTimer" type="Timer" parent="States/Dodge"]
-wait_time = 0.2
 
 [node name="SenseRange" type="Area2D" parent="."]
 scale = Vector2(3.9691, 4.11471)
@@ -185,6 +186,15 @@ movie_quit_on_finish = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-3.5, -4.5)
 shape = SubResource("RectangleShape2D_v47jn")
+
+[node name="enemySFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_j8j73")
+volume_db = 5.0
+bus = &"SFX"
+
+[node name="dodgeSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_82ikw")
+bus = &"SFX"
 
 [connection signal="body_entered" from="Melee" to="." method="_on_melee_body_entered"]
 [connection signal="timeout" from="States/Dodge/DodgeTimer" to="States/Dodge" method="_on_dodge_timer_timeout"]

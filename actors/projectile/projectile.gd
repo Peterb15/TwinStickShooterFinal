@@ -1,8 +1,12 @@
 extends Area2D
 
 var velocity: Vector2 = Vector2(0,0)
+@onready var bubble_sfx: AudioStreamPlayer2D = $bubbleSFX
 
 func fire(forward: Vector2, speed: float):
+	$AnimationPlayer.play("bubble_fire")
+	bubble_sfx.play()
+	await get_tree().create_timer(0.25).timeout
 	velocity = forward * speed
 	look_at(position + forward)
 
@@ -16,12 +20,14 @@ func _on_time_to_live_timeout():
 
 func _on_body_entered(body: Node2D) -> void:
 	if(body is not TileMapLayer):
-		if(body is Enemy):
-			(body as Enemy).hit(1)
-			queue_free()
-		if(body is EnemyTest):
-			(body as EnemyTest).hit(1)
-			queue_free()
-		if(body is ShootingEnemy):
-			(body as ShootingEnemy).hit(1)
-			
+		velocity = Vector2(0,0)
+		$AnimationPlayer.play("bubble_hit")
+		if is_instance_valid(body):
+			if(body is EnemyTest):
+				(body as EnemyTest).hit(1)
+				await $AnimationPlayer.animation_finished
+				queue_free()
+			elif(body is ShootingEnemy):
+				(body as ShootingEnemy).hit(1)
+				await $AnimationPlayer.animation_finished
+				queue_free()

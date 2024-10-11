@@ -1,4 +1,6 @@
 extends Area2D
+@onready var ray_sfx: AudioStreamPlayer2D = $raySFX
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var velocity: Vector2 = Vector2(0,0)
 
@@ -6,7 +8,8 @@ func fire(projectile_forward: Vector2, target_position: Vector2, speed: float):
 	# You can now use target_position in this function
 	# Example:
 	print("Firing towards target at position: ", target_position)
-	
+	ray_sfx.play()
+	animation_player.play("raygun")
 	velocity = projectile_forward * speed
 	# Your projectile firing logic here
 
@@ -21,6 +24,8 @@ func _on_time_to_live_timeout():
 
 func _on_body_entered(body: Node2D) -> void:
 	if(body is not TileMapLayer):
+		ray_sfx.stop()
+		animation_player.stop()
 		if(body is Player):
 			(body as Player).hit(1)
 			queue_free()

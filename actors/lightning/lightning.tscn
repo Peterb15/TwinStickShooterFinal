@@ -1,12 +1,56 @@
-[gd_scene load_steps=5 format=3 uid="uid://c30nw7skjibaq"]
+[gd_scene load_steps=11 format=3 uid="uid://c30nw7skjibaq"]
 
 [ext_resource type="Script" path="res://actors/lightning/lightning.gd" id="1_nmt6r"]
 [ext_resource type="Texture2D" uid="uid://c6f5uqum4au0k" path="res://assets/WIZARD.png" id="2_77a0p"]
+[ext_resource type="AudioStream" uid="uid://bprhwincgvhpt" path="res://assets/sound/SFX/lightning.wav" id="3_uehpc"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qbs76"]
-radius = 29.8329
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ohbg"]
+size = Vector2(39.6393, 63.9695)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnmts"]
+size = Vector2(25.9458, 25.0576)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jxhfb"]
+size = Vector2(7.9928, 25.156)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_harmj"]
+
+[sub_resource type="Animation" id="Animation_n1few"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(1794, 749, 556, 184)]
+}
+
+[sub_resource type="Animation" id="Animation_ipbol"]
+resource_name = "lightning_start"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MainSprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Rect2(1794, 749, 116, 184), Rect2(1794, 749, 199, 184), Rect2(1794, 749, 296, 184), Rect2(1794, 749, 362, 184), Rect2(1794, 749, 456, 184), Rect2(1794, 749, 564, 184), Rect2(1794, 749, 564, 184)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k7sqs"]
+_data = {
+"RESET": SubResource("Animation_n1few"),
+"lightning_start": SubResource("Animation_ipbol")
+}
 
 [node name="lightning" type="Area2D" groups=["projectile"]]
 collision_layer = 4
@@ -14,22 +58,27 @@ collision_mask = 18
 script = ExtResource("1_nmt6r")
 
 [node name="MainSprite" type="Sprite2D" parent="."]
-modulate = Color(0.784314, 0.501961, 1, 1)
 position = Vector2(15, 9)
 rotation = -0.00182481
 scale = Vector2(0.19466, 0.19466)
 texture = ExtResource("2_77a0p")
 region_enabled = true
-region_rect = Rect2(1878, 0, 510, 530)
+region_rect = Rect2(1794, 749, 556, 184)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(18, 30)
-rotation = -1.81666
-shape = SubResource("CircleShape2D_qbs76")
+position = Vector2(-8.02795, 11.9278)
+rotation = -1.56719
+shape = SubResource("RectangleShape2D_2ohbg")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(11, -5)
-shape = SubResource("CircleShape2D_qbs76")
+position = Vector2(37, 11)
+rotation = -1.56719
+shape = SubResource("RectangleShape2D_cnmts")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(57.1934, 18.5521)
+rotation = -1.06387
+shape = SubResource("RectangleShape2D_jxhfb")
 
 [node name="TimeToLive" type="Timer" parent="."]
 wait_time = 5.0
@@ -44,6 +93,19 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SenseRange"]
 scale = Vector2(8, 8)
 shape = SubResource("CircleShape2D_harmj")
+
+[node name="fire_timer" type="Timer" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k7sqs")
+}
+
+[node name="lightningSFX" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_uehpc")
+volume_db = 5.0
+bus = &"SFX"
+playback_type = 1
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="TimeToLive" to="." method="_on_time_to_live_timeout"]
